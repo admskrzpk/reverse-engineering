@@ -20,7 +20,7 @@ object ReverseEngineering extends App {
     .option("delimiter", "|")
     .option("header", "true")
     .option("inferSchema", "true")
-    .csv("/home/adam/IdeaProjects/reverse-engineering/input.csv")
+    .csv(path)
     .drop($"_c0")
     .drop($"_c4")
     .toDF("id", "Text1", "Text2")
