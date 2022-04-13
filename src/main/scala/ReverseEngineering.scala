@@ -3,7 +3,7 @@ object ReverseEngineering extends App {
   import org.apache.spark.sql.SparkSession
 
   val path = if (args.length > 0) args(0)
-  else "target.csv"
+  else "/home/adam/IdeaProjects/reverse-engineering/input.csv"
 
   val spark = SparkSession
     .builder()
@@ -15,11 +15,23 @@ object ReverseEngineering extends App {
 
   val input = spark
     .read
+    .option("truncate", "true")
+    .option("comment", "+")
+    .option("delimiter", "|")
     .option("header", "true")
     .option("inferSchema", "true")
-    .option("delimiter", "|")
-    .csv(path).toDF
-    .show()
+    .csv("/home/adam/IdeaProjects/reverse-engineering/input.csv")
+    .drop($"_c0")
+    .drop($"_c4")
+    .show(truncate = false)
+
+
+  //val newFile = input.map(_.mkString("")).map(_.replaceAll("[+ -]", ""))
+
+  //.toDF("id", "text1", "text2").show()
+
+  //(_.mkString("")).map(_.replaceAll("[|,+]", "")).toDF("id, Text1, Text2")
+
 
   //val inputFormatted = input.map(_.mkString("|"))
 
