@@ -1,4 +1,3 @@
-import org.apache.spark.sql.types.IntegerType
 
 object ReverseEngineering extends App {
 
@@ -12,7 +11,6 @@ object ReverseEngineering extends App {
     .master("local[*]")
     .getOrCreate()
 
-  import org.apache.spark.sql.functions._
   import spark.implicits._
 
   val input = spark
@@ -25,4 +23,7 @@ object ReverseEngineering extends App {
     .csv("/home/adam/IdeaProjects/reverse-engineering/input.csv")
     .drop($"_c0")
     .drop($"_c4")
+    .toDF("id", "Text1", "Text2")
+    .withColumn("id",'id.cast("Int"))
+    .show()
 }
